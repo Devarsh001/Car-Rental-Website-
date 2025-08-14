@@ -135,7 +135,7 @@ const Checkout = () => {
                 <div className="flex justify-between mt-6">
                     <button
                         onClick={()=>{navigate("/")}}
-                        className="mt-6 bg-blue-600 text-white px-6 py-2 rounded hover:bg-green-700"
+                        className="mt-6 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
                     >
                         Continue Shoping
                     </button>

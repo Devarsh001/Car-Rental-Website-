@@ -3,11 +3,11 @@ import { users } from "../data/users"; // mock users
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
     const navigate = useNavigate();
-
-    // State for form fields
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -15,23 +15,35 @@ const Login = () => {
     const handleLogin = (e) => {
         e.preventDefault();
 
-        // Check if user exists
         const foundUser = users.find(
             (u) => u.email === email && u.password === password
         );
 
         if (foundUser) {
-            alert(`Welcome ${foundUser.name}`);
-            navigate("/"); // redirect to Home
+            localStorage.setItem("user", JSON.stringify(foundUser));
+
+            // Notify Header
+            window.dispatchEvent(new Event("userUpdated"));
+
+            toast.success(`Welcome ${foundUser.name}!`, {
+                position: "top-right",
+                autoClose: 2000,
+            });
+
+            setTimeout(() => navigate("/"), 2000); // redirect after toast
         } else {
             setError("Invalid email or password");
+            toast.error("Invalid email or password!", {
+                position: "top-right",
+                autoClose: 2000,
+            });
         }
     };
 
     return (
         <>
             <Header />
-            <div className="container mx-auto px-4 mt-10 max-w-md">
+            <div className="container mx-auto px-4 mt-10 max-w-md min-h-[80vh]">
                 <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
                     Login
                 </h1>
@@ -71,7 +83,6 @@ const Login = () => {
                         Login
                     </button>
 
-                    {/* Sign up link */}
                     <p className="text-center text-gray-600 text-sm mt-4">
                         New user?{" "}
                         <span
@@ -84,6 +95,7 @@ const Login = () => {
                 </form>
             </div>
             <Footer />
+            <ToastContainer />
         </>
     );
 };

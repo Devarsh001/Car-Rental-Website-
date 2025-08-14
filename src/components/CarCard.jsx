@@ -1,20 +1,44 @@
 import { addToCart } from "../utils/cart";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify"; // ✅ Import toast
 
 const CarCard = ({ car }) => {
     const navigate = useNavigate();
 
     const handleAdd = () => {
-        addToCart(car);
-        alert(`${car.name} added to cart!`);
+        try {
+            addToCart(car);
+
+            // ✅ Success Toast (Green)
+            toast.success(`${car.name} added to cart!`, {
+                style: { backgroundColor: "#4CAF50", color: "white" },
+            });
+        } catch (error) {
+            // ❌ Error Toast (Red)
+            toast.error("Failed to add car to cart!", {
+                style: { backgroundColor: "#ff4d4f", color: "white" },
+            });
+            console.log("Error adding car to cart:", error);
+        }
     };
 
     return (
         <div className="border p-4 rounded shadow hover:shadow-lg transition-shadow duration-300">
-            <div className="flex items-center" style={{ height: '200px', overflow: 'hidden' }}>
-                <img src={car.image} alt={car.name} height={100} width="100%" onClick={() => navigate(`/car/${car.id}`)} />
+            <div
+                className="flex items-center"
+                style={{ height: '200px', overflow: 'hidden' }}
+            >
+                <img
+                    src={car.image}
+                    alt={car.name}
+                    height={100}
+                    width="100%"
+                    onClick={() => navigate(`/car/${car.id}`)}
+                />
             </div>
-            <h2 className="text-lg font-bold mt-3">{car.name} ({car.shape})</h2>
+            <h2 className="text-lg font-bold mt-3">
+                {car.name} ({car.shape})
+            </h2>
             <p>₹{car.price} / day</p>
             <p>{car.description}</p>
             <div className="flex justify-between items-center">
