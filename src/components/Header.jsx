@@ -91,12 +91,12 @@ const Header = () => {
                         >
                             Signup
                         </button>
-                        <div
+                        {/* <div
                             onClick={() => navigate("/checkout")}
                             className="cursor-pointer bg-gray-700 px-3 py-1 rounded hover:bg-gray-600 transition"
                         >
                             Cart({cartCount})
-                        </div>
+                        </div> */}
                     </>
                 )}
             </div>
